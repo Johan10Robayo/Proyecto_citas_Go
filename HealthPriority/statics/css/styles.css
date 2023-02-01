@@ -1,0 +1,140 @@
+/*HEALTH PRIORITY*/
+
+nav {
+
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid #fff;
+
+}
+#letramenu{
+  color: #fff;
+}
+
+nav ul li a{
+  line-height: 80px;
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+nav ul li a:hover{
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+}
+
+#imgredonda{
+  border-radius:70px;
+}
+#imgmenu{
+  border-radius:10px;
+  width: 25%;
+}
+#subtitulos{
+  font: Manrope;
+  font-weight: bold;
+  color: #333333;
+  size: 40;
+  initial-letter: -2;
+}
+#frases{
+  font: Inter;
+  font-weight: Regular;
+  color: #888888;
+  size: 24;
+  initial-letter: -1;
+}
+#imginferior{
+  width: 100%;
+}
+
+#contenedor{
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+#centrado{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#fraseinferior{
+  font: Manrope;
+  font-weight: bold;
+  color: black;
+  size: 40;
+  initial-letter: -2;
+}
+
+
+
+footer{
+  background-color: rgba(0, 0, 0, 0.6);
+  align-self: flex-end;
+}
+#frasefooter{
+  color: white;
+}
+
+/*RESTAURANTES*/
+#imgrestaurante{
+  border-radius:40px;
+  width: 250px;
+  height: 200px;
+}
+#imgContacto{
+  width: 520px;
+}
+/*INFORMACION*/
+.cards-wrapper{
+  display: flex;
+}
+
+#cardInfo{
+  margin: 0.5em;
+  width: calc(100%/3);
+}
+
+/*MAPA*/
+#map {
+	height: 500px;
+	width: 100%;
+}
+/*COMENTARIOS*/
+#usuarios{
+  width: 120px;
+  height: 120px;
+  float: right;
+}
+
+/*REGISTRO*/
+#operacion{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#resultado{
+  height: 40px;
+  width: 140px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#contenedorOperacion{
+  height: 262px;
+  width: 100%;
+  background-color: #F2F4F4;
+  left: 50px;
+  top:50%;
+  padding: 20px 15px;
+  font-size: 15px;
+}
+
+#obligatorio{
+  color: #EF5350 ;
+}
