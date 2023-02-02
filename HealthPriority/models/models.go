@@ -3,9 +3,9 @@ package models
 import "time"
 
 type Estado struct {
-	Id                 int64  `gorm:"primaryKey;autoIncrement:false"`
+	Id                 int64  `gorm:"primaryKey;autoIncrement:true"`
 	Comorbilidad       string `gorm:"type:varchar(50)"`
-	Nivel_comorbilidad int    `gorm:"type:tinyint"`
+	Nivel_comorbilidad float64
 	Embarazo           bool
 }
 
@@ -21,7 +21,7 @@ type Persona struct {
 }
 
 type Login struct {
-	Correo    string `gorm:"primaryKey;autoIncrement:false;type:varchar(50)"`
+	Correo    string `gorm:"primaryKey;type:varchar(50)"`
 	Password  string `gorm:"type:varchar(100)"`
 	Rol       string `gorm:"type:varchar(50)"`
 	PersonaID int64
@@ -29,7 +29,7 @@ type Login struct {
 }
 
 type Cita struct {
-	Id         int64     `gorm:"primaryKey;autoIncrement:false"`
+	Id         int64     `gorm:"primaryKey;autoIncrement:true"`
 	Fecha_hora time.Time `gorm:"type:timestamp"`
 	Tipo       string    `gorm:"type:varchar(20)"`
 	PersonaID  int64
@@ -37,7 +37,7 @@ type Cita struct {
 }
 
 type Agenda struct {
-	Id        int64     `gorm:"primaryKey;autoIncrement:false"`
+	Id        int64     `gorm:"primaryKey;autoIncrement:true"`
 	Fecha     time.Time `gorm:"type:timestamp"`
 	Jornada   string    `gorm:"type:varchar(15)"`
 	Tipo      string    `gorm:"type:varchar(20)"`
@@ -46,7 +46,7 @@ type Agenda struct {
 }
 
 type Autorizacion struct {
-	Id                int64  `gorm:"primaryKey;autoIncrement:false"`
+	Id                int64  `gorm:"primaryKey;autoIncrement:true"`
 	Nombre            string `gorm:"type:varchar(20)"`
 	Tipo              string `gorm:"type:varchar(20)"`
 	Url               string `gorm:"type:varchar(200)"`
