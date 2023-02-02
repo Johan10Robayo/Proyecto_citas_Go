@@ -1,21 +1,18 @@
 package main
 
 import (
+	"healthpriority.com/connection"
+	"healthpriority.com/models"
 	"healthpriority.com/routes"
 	"healthpriority.com/server"
 )
 
 func main() {
-	/*conn, err := connection.GetConnection()
 
-	if err != nil {
-		log.Panic(err)
-	}
+	conn := connection.GetConnection()
 
-	_ = conn
+	models.Migrate(conn)
 
-	conn.AutoMigrate(&models.Curso{}, &models.Student{},
-	&models.Student_Curso{})*/
-	routes.Init()
-	server.Init()
+	router := routes.Init()
+	server.Init(router)
 }

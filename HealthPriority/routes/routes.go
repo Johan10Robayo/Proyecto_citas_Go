@@ -3,12 +3,13 @@ package routes
 import (
 	"net/http"
 
-	"healthpriority.com/handlers"
+	"github.com/gorilla/mux"
 )
 
-var Mux = http.NewServeMux()
+func Init() (router *mux.Router) {
+	router = mux.NewRouter().StrictSlash(false)
 
-func Init() {
-	Mux.HandleFunc("/index", handlers.Index)
+	http.Handle("/", router)
 
+	return router
 }
