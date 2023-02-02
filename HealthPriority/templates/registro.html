@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrar</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../statics/archivos/favicon.ico" />
+    <!--CSS B-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!--ICON B-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="../statics/css/styles.css" media="screen" />
+    <nav class="navbar navbar-expand-md">
+        <section class="container-fluid">
+            <!--ICON-->
+            <a class="navbar-brand" href="index.html">
+                <img id="imgmenu" src="../statics/archivos/img/logo.jpg" alt="Logo Health Priority">
+            </a>
+            <!--Bot-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--Elementos colapsables-->
+            <section class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-auto"><a id="letramenu" class="nav-link" href="cita.html">Citas</a></li>
+                    <li class="nav-item me-auto"><a id="letramenu" class="nav-link" href="contacto.html">Contacto</a></li>
+                </ul>   
+                <hr class="navbar-navtext-light">
+            </section>
+        </section>
+
+    </nav>
+
+</head>
+  <body>
+    <br><br><br>
+
+    <section class="container">
+        <section class="row">
+            <h1>Registro de usuario</h1>
+            <br><br>
+            <form class="row g-3 mt-3" id="formRegistro" action="" >
+                <br>
+                <p id="subtitulos">Registro de datos</p>
+                <section class="col-12">
+                    <input type="text" class="form-control" placeholder="Nombres" id="Nombres"  required="text">
+                </section>
+                <section class="col-12">
+                    <input type="text" class="form-control" placeholder="Apellidos" id="Apellidos" required="text">
+                </section>
+                <section class="col-12">
+                    <input type="number" class="form-control" placeholder="Cédula" id="Cedula" required="number">
+                </section>
+                <section class="col-12">
+                    <input type="number" class="form-control" placeholder="Teléfono" id="telefono" required="number">
+                </section>
+                <section class="col-12">
+                    <input type="text" class="form-control" placeholder="Dirección" id="Direccion" required="text">
+                </section>
+                <section class="col-12">
+                    <input type="number"  class="form-control" placeholder="Edad" id="Edad" required="number">
+                </section>
+                <section class="col-12">
+                    <p>¿Presenta estado de embarazo?:
+                        S&iacute;<input type="radio" name="ref">
+                        No<input type="radio" name="ref" checked> 
+                    </p>
+                </section>
+                <section class="col-12">
+                    <p>¿Presenta alguna de las siguientes comorbilidadades?:</p>
+                    <select name="comorbilidad" id="comorbilidad">
+                        
+                        <option value="Hipertensivas">Hipertensivas</option>
+                        <option value="Diabetes">Diabetes</option>
+                        <option value="Insuficiencia renal">Insuficiencia renal </option>
+                        <option value="VIH">VIH</option>
+                        <option value="Cancer">Cáncer</option>
+                        <option value="Tuberculosis">Tuberculosis</option>
+                        <option value="EPOC">EPOC</option>
+                        <option value="Asma">Asma</option>
+                        <option value="Obesidad">Obesidad Grado 1, 2 Y 3 </option>
+                        <option value="OrganosEspera">Trasplante de órganos</option>
+                        <option value="OrganosPost">Post trasplante de órganos</option>
+                        <option value="Corazon">Enfermedad isquémica aguda del corazón</option>
+                        <option value="Insuficiencia cardaca">Insuficiencia cardíaca</option>
+                        <option value="Arritmias cardiacas">Arritmias cardíacas</option>
+                        <option value="Enfermedad cerebro vascular ">Enfermedad cerebro vascular </option>
+                        <option value="Desordenes neurologicos ">Desórdenes neurológicos </option>
+                        <option value="Sindrome de Down">Síndrome de Down</option>
+                        <option value="Inmunodeficiencia primaria">Inmunodeficiencia primaria</option>
+                        <option value="Esquizofrenia">Esquizofrenia, trastornos esquizotípico o delirantes </option>
+                        <option value="Autismo">Autismo</option>
+                        <option value="Trastorno bipolar ">Trastorno bipolar </option>
+                        <option value="Discapacidad intelectual">Discapacidad intelectual</option>
+                        <option value="Fibrosis Quística ">Fibrosis Quística </option>
+                        <option value="Artritis reumatoide">Artritis reumatoide</option>
+                        <option value="Lupus Eritematoso Sistemico">Lupus Eritematoso Sistémico</option>
+                        <option value="Espondilitis Anquilosante">Espondilitis Anquilosante</option>
+                        <option value="Vasculitis ">Vasculitis </option>
+                        <option value="Ninguna">No presento comorbilidades</option>
+                        
+    
+                    </select>
+                </section>
+
+                <section class="col-12">
+                    <input type="email" class="form-control" placeholder="Correo" id="correo" required="email">
+                </section>
+                <section class="col-12">
+                    <input type="password" class="form-control" placeholder="Contraseña" id="Contraseña" required="password">
+                </section>
+                <button type="submit" id="BtnRegistar" class="btn btn-secondary">Registrar</button>
+                <br>
+            </form>
+        </section>
+    </section>
+    <br><br><br><br>
+        <!--JS B-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    </body>
+  <footer >
+    <section class="container">
+        <section class="row" >
+            <section class="col-11">
+                <p id="frasefooter">© 2023 Priority Health. All Rights reserved</p>
+            </section>
+        </section>
+    </section>
+  </footer>
+</html>
