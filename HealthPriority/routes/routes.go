@@ -10,6 +10,7 @@ import (
 func Init() (router *mux.Router) {
 	router = mux.NewRouter().StrictSlash(false)
 	router.HandleFunc("/api/registrar", handlers.RegistroCliente).Methods("POST")
+	router.HandleFunc("/api/agendageneral", handlers.AgendarMedicoG).Methods("POST")
 	http.Handle("/", router)
 
 	return router

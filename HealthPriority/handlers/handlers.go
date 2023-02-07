@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	dao "healthpriority.com/DAO"
 	dto "healthpriority.com/DTO"
@@ -24,8 +25,8 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 	var data map[string]interface{}
 	if RequestJson == (dto.PersonaLogin{}) {
 		data = map[string]interface{}{
-			"name":    "parametros incorrectos",
-			"message": "los parametros no coinciden",
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
 			"code":    500,
 			"succes":  false,
 		}
@@ -88,6 +89,69 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dao.CrearCliente(conn, cliente)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func AgendarMedicoG(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.Agenda
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	if RequestJson == (dto.Agenda{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+		data = map[string]interface{}{
+			"name":    "Agendamiento exitoso",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+	}
+
+	persona := dao.PersonaById(conn, 121111)
+
+	// Convertir cadena a tiempo
+
+	fecha, err := time.Parse(time.RFC3339, RequestJson.Fecha+"T12:00:00.511Z")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(fecha)
+	agenda := models.Agenda{
+		Fecha:     fecha,
+		Jornada:   RequestJson.Jornada,
+		Tipo:      RequestJson.Tipo,
+		PersonaID: persona.Cedula,
+		Persona:   persona,
+	}
+
+	dao.CrearAgenda(conn, agenda)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(httpCode)

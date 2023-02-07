@@ -20,6 +20,14 @@ type PersonaLogin struct {
 	Password     string
 }
 
+type Agenda struct {
+	Id      int64
+	Fecha   string
+	Jornada string
+	Tipo    string
+	Cedula  int64
+}
+
 func LeerJson() (dataJson map[string]float64) {
 	fileContent, err := os.Open("DTO/comorbilidades.json")
 

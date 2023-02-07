@@ -1,3 +1,4 @@
+/*
 let InputResultado = document.getElementById('resultado');
 let num1 = document.getElementById('num1');
 let num2 = document.getElementById("num2");
@@ -10,6 +11,8 @@ num2.innerText = Math.floor(Math.random() *10)
 
 let valor1 = num1.innerText;
 let valor2 = num2.innerText;
+
+
 
 btn.addEventListener("click",()=>{
   let resultado = parseInt(valor1) + parseInt(valor2);
@@ -28,7 +31,7 @@ btn.addEventListener("click",()=>{
     valor2 = num2.innerText;
   }
 
-});
+});*/
 
 function iniciarMap(){
   var coord = {lat:4.137103113736017 ,lng:-73.63822874569446};
