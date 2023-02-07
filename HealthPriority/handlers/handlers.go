@@ -21,9 +21,9 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 	}
 	var datajson []byte
 	var httpCode int = 200
-
+	var data map[string]interface{}
 	if RequestJson == (dto.PersonaLogin{}) {
-		data := map[string]interface{}{
+		data = map[string]interface{}{
 			"name":    "parametros incorrectos",
 			"message": "los parametros no coinciden",
 			"code":    500,
@@ -36,6 +36,13 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 		}
 		datajson = bytes
 		httpCode = 500
+	} else {
+		data = map[string]interface{}{
+			"name":    "Registro exitoso",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
 	}
 
 	nivel := dto.ObtenerNivel(RequestJson.Comorbilidad)
@@ -63,8 +70,8 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 
 	dao.CrearPersona(conn, persona)
 
-	data := []byte(RequestJson.Password)
-	hash := sha256.Sum256(data)
+	data2 := []byte(RequestJson.Password)
+	hash := sha256.Sum256(data2)
 	hashStr := fmt.Sprintf("%x", hash)
 
 	cliente := models.Login{
