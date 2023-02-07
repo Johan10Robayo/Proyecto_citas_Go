@@ -42,7 +42,7 @@
         <section class="row">
             <h1>Registro de usuario</h1>
             <br><br>
-            <form class="row g-3 mt-3" id="formRegistro" >
+            <div class="row g-3 mt-3" id="formRegistro" >
                 <br>
                 <p id="subtitulos">Registro de datos</p>
                 <section class="col-12">
@@ -64,10 +64,11 @@
                     <input type="number"  class="form-control" placeholder="Edad" id="Edad" name="Edad" required="number">
                 </section>
                 <section class="col-12">
-                    <p>¿Presenta estado de embarazo?:
-                        S&iacute;<input type="radio" name="Embarazo" value="true">
-                        No<input type="radio" name="Embarazo"  value="false" checked> 
-                    </p>
+                    <p>¿Presenta estado de embarazo?:</p>
+                    <select name="Embarazo" id="Embarazo">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
                 </section>
                 <section class="col-12">
                     <p>¿Presenta alguna de las siguientes comorbilidadades?:</p>
@@ -112,9 +113,9 @@
                 <section class="col-12">
                     <input type="password" class="form-control" placeholder="Contraseña" id="Password" name="Password" required="password">
                 </section>
-                <button type="submit" id="BtnRegistar" class="btn btn-secondary">Registrar</button>
+                <button id="BtnRegistar" class="btn btn-secondary">Registrar </button>
                 <br>
-            </form>
+            </div>
         </section>
     </section>
     <br><br><br><br>

@@ -43,6 +43,11 @@ func RegistroCliente(w http.ResponseWriter, r *http.Request) {
 			"code":    200,
 			"succes":  true,
 		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
 	}
 
 	nivel := dto.ObtenerNivel(RequestJson.Comorbilidad)
