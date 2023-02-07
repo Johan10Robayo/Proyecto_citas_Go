@@ -38,28 +38,33 @@
 
 <body>
     <br><br><br>
-    <h1>Agendar cita</h1>
+    <h1>Administrar citas</h1>
 
     <section class="container">
         <ul class="nav nav-tabs">
+            
             <li class="nav-item">
-                <a class="nav-link" href="cita.html">Cita médico general</a>
+                <a class="nav-link" href="cita.html">Solicitar médico general</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="autorizacion.html">Autorizaci&oacute;n</a>
+                <a class="nav-link" href="citaespecialista.html">Solicitar cita especialista/exámenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="autorizacion.html">Subir autorizaci&oacute;n</a>
             </li>
         </ul>
 
-        <div class="row g-3 mt-3" id="formRegistro">
+        <form class="row g-3 mt-3" id="formRegistro">
             <br><p id="subtitulos">Por favor ingresa los siguientes datos</p>
             <section class="col-12">
                 <input type="text" class="form-control" placeholder="Nombre autorización" required>
             </section>
             <section class="col-12">
-                <p>Tipo de utorización: <br>
-                    Exámenes médicos <input type="radio" name="ref"><br>
-                    Médico especialista <input type="radio" name="ref" checked> 
-                </p>
+                <p>Tipo de autorización: <br>
+                    <select name="Jornada" id="Jornada">
+                        <option value="examenes">Exámenes médicos</option>
+                        <option value="especialista">Médico especialista</option>
+                    </select>
             </section> 
             <section class="col-12">
                 <p>Subir el soporte de la autorización en formato PDF: 
