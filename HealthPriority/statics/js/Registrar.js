@@ -1,5 +1,5 @@
-const formButton = document.getElementById("BtnRegistar")
-formButton.addEventListener('click', (e) => {
+const formButton = document.getElementById("formRegistro")
+formButton.addEventListener('submit', (e) => {
   e.preventDefault();
 
 

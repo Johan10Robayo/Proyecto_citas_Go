@@ -143,7 +143,6 @@ func AgendarMedicoG(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(fecha)
 	agenda := models.Agenda{
 		Fecha:     fecha,
 		Jornada:   RequestJson.Jornada,

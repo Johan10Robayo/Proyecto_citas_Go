@@ -1,10 +1,12 @@
-const formButton = document.getElementById("BtnCitaGeneral")
-formButton.addEventListener('click', (e) => {
+const formButton = document.getElementById("formRegistro")
+formButton.addEventListener('submit', (e) => {
   e.preventDefault();
 
 
   let fecha = document.getElementById("Fecha")
   let jornada = document.getElementById("Jornada")
+
+  
   
   console.log(fecha.value, "tipo: ", typeof(fecha.value))
   console.log(jornada.value,"tipo: ", typeof(jornada.value))
