@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -225,12 +226,13 @@ func JwtMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		tokenString := r.Header.Get("Authorization")
+		authorization := r.Header.Get("Authorization")
+		stringArray := strings.Split(authorization, " ")
+		tokenString := stringArray[1]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return []byte("cb97baeaab7da33a8c6ca9b9165261ce05e9554533bcbab9389489f9c8d9f1d6"), nil
 		})
 		if err == nil && token.Valid {
-			// agregar información adicional al contexto de la solicitud
 			next.ServeHTTP(w, r)
 		} else {
 			http.Error(w, "Token inválido", http.StatusUnauthorized)
