@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	dao "healthpriority.com/DAO"
 	dto "healthpriority.com/DTO"
 	"healthpriority.com/connection"
@@ -156,4 +157,84 @@ func AgendarMedicoG(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(httpCode)
 	w.Write(datajson)
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.Login
+	var token *jwt.Token
+	var datajson []byte
+	var httpCode int
+	var data map[string]interface{}
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+
+	sha := []byte(RequestJson.Password)
+	hash := sha256.Sum256(sha)
+	hashStr := fmt.Sprintf("%x", hash)
+	usuario := dao.VerificarUsuario(conn, RequestJson.User, hashStr)
+
+	if usuario == (models.Login{}) {
+		data = map[string]interface{}{
+			"name":    "usuario no encontrado, error al autenticar",
+			"message": "Usuario o contraseña incorrecta, error al autenticar",
+			"code":    http.StatusForbidden,
+			"succes":  false,
+		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		httpCode = http.StatusForbidden
+		datajson = bytes
+	} else {
+		token = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"id":       usuario.PersonaID,
+			"username": usuario.Correo,
+			"role":     usuario.Rol,
+		})
+		tokenString, err := token.SignedString([]byte("cb97baeaab7da33a8c6ca9b9165261ce05e9554533bcbab9389489f9c8d9f1d6"))
+		if err != nil {
+			panic(err)
+		}
+		data = map[string]interface{}{
+			"name":    "Autenticación exitosa",
+			"message": tokenString,
+			"code":    http.StatusOK,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		httpCode = http.StatusOK
+		datajson = bytes
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func JwtMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/api/login" || r.URL.Path == "/api/registrar" {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		tokenString := r.Header.Get("Authorization")
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return []byte("cb97baeaab7da33a8c6ca9b9165261ce05e9554533bcbab9389489f9c8d9f1d6"), nil
+		})
+		if err == nil && token.Valid {
+			// agregar información adicional al contexto de la solicitud
+			next.ServeHTTP(w, r)
+		} else {
+			http.Error(w, "Token inválido", http.StatusUnauthorized)
+		}
+	})
 }

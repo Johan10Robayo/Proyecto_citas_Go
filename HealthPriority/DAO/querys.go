@@ -29,3 +29,8 @@ func PersonaById(conn *gorm.DB, id int) (persona models.Persona) {
 	conn.First(&persona, id)
 	return persona
 }
+
+func VerificarUsuario(conn *gorm.DB, correo string, password string) (usuario models.Login) {
+	conn.Where("correo = ? AND password >= ?", correo, password).Find(&usuario)
+	return usuario
+}

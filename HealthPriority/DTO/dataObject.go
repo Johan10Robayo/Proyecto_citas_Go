@@ -28,6 +28,11 @@ type Agenda struct {
 	Cedula  int64
 }
 
+type Login struct {
+	User     string
+	Password string
+}
+
 func LeerJson() (dataJson map[string]float64) {
 	fileContent, err := os.Open("DTO/comorbilidades.json")
 
