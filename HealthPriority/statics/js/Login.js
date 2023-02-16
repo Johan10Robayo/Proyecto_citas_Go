@@ -21,15 +21,33 @@ formButton.addEventListener('submit', (e) => {
         }
         )
     }).then(res=>{
-        let json = res.json
         console.log(res)
-        if(res.ok!=200){
+        if(!res.ok)
             respuesta.innerHTML="Datos incorrectos, error de autenticación"
-        }
+        
         return  res.ok ? res.json():Promise.reject(res)
     }).then(json=>{
         console.log(json)
-        respuesta.innerHTML=""
+        let token =json.message
+        console.log(token)
+        let decoded 
+        try {
+            decoded = decodeJWT(token)
+            console.log(decoded)
+           
+        } catch (error) {
+            console.error(error);
+        }
+    
+        document.cookie = "session="+token+";path=/"
+        if(decoded.role =="CLIENTE"){
+            window.location.replace("http://127.0.0.1:5501/templates/indexLoginUser.html")
+        }
+            
+        if(decoded.role =="FUNCIONARIO"){
+            window.location.replace("http://127.0.0.1:5501/templates/indexLoginFunc.html")
+        }
+       
     })
     .catch(er=>{
         console.log("Error", er)
@@ -38,3 +56,26 @@ formButton.addEventListener('submit', (e) => {
     })
     
 });
+
+function decodeJWT(token) {
+  
+    const parts = token.split('.');
+  
+    if (parts.length !== 3) {
+      throw new Error('Invalid token');
+    }
+  
+    const header = JSON.parse(atob(parts[0]));
+    const payload = JSON.parse(atob(parts[1]));
+    const signature = parts[2];
+  
+  
+    const secret = 'secret-key';
+    const expectedSignature = btoa(`${parts[0]}.${parts[1]}`);
+  
+    /*if (signature !== expectedSignature) {
+      throw new Error('Invalid signature');
+    }*/
+  
+    return payload;
+  }

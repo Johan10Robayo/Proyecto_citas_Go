@@ -31,7 +31,8 @@ nav ul li a:hover{
 }
 #imgmenu{
   border-radius:10px;
-  width: 25%;
+  width: 100%;
+
 }
 #subtitulos{
   font: Manrope;
@@ -141,4 +142,18 @@ footer{
 
 #response{
   color: #EF5350 ;
+}
+
+#user{
+  color: #fff;
+}
+.fa-user{
+  color: #fff;
+}
+
+#navbarDropdown{
+  color: #fff;
+}
+.logo{
+  width: 5rem;
 }
