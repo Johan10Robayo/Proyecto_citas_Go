@@ -22,6 +22,8 @@ formButton.addEventListener('submit', (e) => {
         )
     }).then(res=>{
         console.log(res)
+        console.log(!res.ok)
+
         if(!res.ok)
             respuesta.innerHTML="Datos incorrectos, error de autenticación"
         
@@ -41,11 +43,11 @@ formButton.addEventListener('submit', (e) => {
     
         document.cookie = "session="+token+";path=/"
         if(decoded.role =="CLIENTE"){
-            window.location.replace("http://127.0.0.1:5501/templates/indexLoginUser.html")
+            window.location.replace("http://127.0.0.1:5500/HealthPriority/templates/indexLoginUser.html")
         }
             
         if(decoded.role =="FUNCIONARIO"){
-            window.location.replace("http://127.0.0.1:5501/templates/indexLoginFunc.html")
+            window.location.replace("http://127.0.0.1:5500/HealthPriority/templates/IndexLoginFunc.html")
         }
        
     })
@@ -56,26 +58,3 @@ formButton.addEventListener('submit', (e) => {
     })
     
 });
-
-function decodeJWT(token) {
-  
-    const parts = token.split('.');
-  
-    if (parts.length !== 3) {
-      throw new Error('Invalid token');
-    }
-  
-    const header = JSON.parse(atob(parts[0]));
-    const payload = JSON.parse(atob(parts[1]));
-    const signature = parts[2];
-  
-  
-    const secret = 'secret-key';
-    const expectedSignature = btoa(`${parts[0]}.${parts[1]}`);
-  
-    /*if (signature !== expectedSignature) {
-      throw new Error('Invalid signature');
-    }*/
-  
-    return payload;
-  }
