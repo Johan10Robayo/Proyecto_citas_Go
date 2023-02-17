@@ -41,11 +41,11 @@ formButton.addEventListener('submit', (e) => {
     
         document.cookie = "session="+token+";path=/"
         if(decoded.role =="CLIENTE"){
-            window.location.replace("http://127.0.0.1:5501/templates/indexLoginUser.html")
+            window.location.replace("http://127.0.0.1:5500/HealthPriority/templates/indexLoginUser.html")
         }
             
         if(decoded.role =="FUNCIONARIO"){
-            window.location.replace("http://127.0.0.1:5501/templates/indexLoginFunc.html")
+            window.location.replace("http://127.0.0.1:5500/HealthPriority/templates/indexLoginFunc.html")
         }
        
     })

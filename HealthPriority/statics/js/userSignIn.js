@@ -23,7 +23,7 @@ function setCookie(cname, cvalue, exdays) {
 let valor = getCookie("session")
 
 if(valor.length == 0){
-    window.location.replace("http://127.0.0.1:5500/templates/ingreso.html")
+    window.location.replace("http://127.0.0.1:5500/HealthPriority/templates/ingreso.html")
 }else{
     console.log("logeado correctamente")
     console.log(valor)
