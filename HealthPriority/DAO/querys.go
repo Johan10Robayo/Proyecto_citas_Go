@@ -30,6 +30,13 @@ func PersonaById(conn *gorm.DB, id int64) (persona models.Persona) {
 	return persona
 }
 
+func CrearAutorizacion(conn *gorm.DB, autorizacion models.Autorizacion) {
+	conn.Create(&autorizacion)
+}
+func GetAutorizaciones(conn *gorm.DB, id int64) (autorizaciones []models.Autorizacion) {
+	conn.Where("persona_id = ?", id).Find(&autorizaciones)
+	return autorizaciones
+}
 func VerificarUsuario(conn *gorm.DB, correo string, password string) (usuario models.Login) {
 	conn.Where("correo = ? AND password >= ?", correo, password).Find(&usuario)
 	return usuario

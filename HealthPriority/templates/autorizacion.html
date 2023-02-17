@@ -85,18 +85,18 @@
         <form class="row g-3 mt-3" id="formRegistro">
             <br><p id="subtitulos">Por favor ingresa los siguientes datos</p>
             <section class="col-12">
-                <input type="text" class="form-control" placeholder="Nombre autorización" required>
+                <input type="text" class="form-control" id="nombre" placeholder="Nombre autorización" required>
             </section>
             <section class="col-12">
                 <p>Tipo de autorización: <br>
-                    <select name="Jornada" id="Jornada">
+                    <select name="Jornada" id="tipo">
                         <option value="examenes">Exámenes médicos</option>
                         <option value="especialista">Médico especialista</option>
                     </select>
             </section> 
             <section class="col-12">
                 <p>Subir el soporte de la autorización en formato PDF: 
-                <input type="file" required>
+                <input type="file" id="documento" required>
                 </p>
             </section>
             <button type="submit" id="BtnRegistar" class="btn btn-secondary">Subir autorización</button>

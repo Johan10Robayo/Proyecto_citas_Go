@@ -32,6 +32,19 @@ type Login struct {
 	Password string
 }
 
+type AutorizacionId struct {
+	Persona_id int64
+}
+
+type DatosAutorizacion struct {
+	Nombre       string
+	Tipo         string
+	Estado       bool
+	Person_id    int64
+	Imagen       string
+	NombreImagen string
+}
+
 func LeerJson() (dataJson map[string]float64) {
 	fileContent, err := os.Open("DTO/comorbilidades.json")
 

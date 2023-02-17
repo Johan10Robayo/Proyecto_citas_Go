@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
@@ -221,15 +223,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func JwtMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/api/login" || r.URL.Path == "/api/registrar" {
+		if true {
 			next.ServeHTTP(w, r)
 			return
 		}
 
 		authorization := r.Header.Get("Authorization")
-		fmt.Println("AUTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", authorization)
+		fmt.Println("header", authorization)
 		stringArray := strings.Split(authorization, " ")
-		fmt.Println("ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", stringArray)
+		fmt.Println("tokem", stringArray)
 		tokenString := stringArray[1]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return []byte("cb97baeaab7da33a8c6ca9b9165261ce05e9554533bcbab9389489f9c8d9f1d6"), nil
@@ -240,4 +242,132 @@ func JwtMiddleware(next http.Handler) http.Handler {
 			http.Error(w, "Token inválido", http.StatusUnauthorized)
 		}
 	})
+}
+
+func Autorizacion(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.DatosAutorizacion
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	//fmt.Println(RequestJson)
+	if RequestJson == (dto.DatosAutorizacion{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+
+		imageBytes, err := base64.StdEncoding.DecodeString(RequestJson.Imagen)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		// Especificar la ruta de destino del archivo
+		filePath := "C:/Users/57322/Documents/Universidad Johan/Semestre 10/Go/Proyecto_final/Proyecto_citas_Go/HealthPriority/statics/archivos/documentos/" + RequestJson.NombreImagen
+
+		err3 := ioutil.WriteFile(filePath, imageBytes, 0644)
+
+		if err3 != nil {
+			fmt.Println(err3)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		fechaV := time.Now().AddDate(0, 0, 30)
+		currentTime := time.Now()
+		person := dao.PersonaById(conn, RequestJson.Person_id)
+		autorizacion := models.Autorizacion{
+			Nombre:            RequestJson.Nombre,
+			Tipo:              RequestJson.Tipo,
+			Url:               filePath,
+			Estado:            RequestJson.Estado,
+			Fecha_creacion:    currentTime,
+			Fecha_vencimiento: fechaV,
+			PersonaID:         RequestJson.Person_id,
+			Persona:           person,
+		}
+		dao.CrearAutorizacion(conn, autorizacion)
+
+		fmt.Fprintf(w, "Imagen subida exitosamente: %s", RequestJson.NombreImagen)
+		httpCode = http.StatusOK
+		data = map[string]interface{}{
+			"name":    "Autorización cargada",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func GetAutorizaciones(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.AutorizacionId
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	//fmt.Println(RequestJson)
+	if RequestJson == (dto.AutorizacionId{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+		fmt.Println(RequestJson.Persona_id)
+		autorizaciones := dao.GetAutorizaciones(conn, RequestJson.Persona_id)
+
+		httpCode = http.StatusOK
+		data = map[string]interface{}{
+			"name":    "Autorizaciones obtenidas",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(autorizaciones)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
 }

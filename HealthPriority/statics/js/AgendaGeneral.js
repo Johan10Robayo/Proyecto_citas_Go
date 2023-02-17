@@ -1,10 +1,16 @@
 const valor = getCookie("session")
 validarSesion(valor)
+const fechaInput = document.getElementById('Fecha');
 
+const fechaActual = new Date();
 
+const fechaMaxima = new Date();
+const fechaMinima = new Date();
+fechaMinima.setDate(fechaActual.getDate() + 1);
+fechaMaxima.setDate(fechaActual.getDate() + 5);
 
-
-
+fechaInput.setAttribute('min', fechaMinima.toISOString().split('T')[0]);
+fechaInput.setAttribute('max', fechaMaxima.toISOString().split('T')[0]);
 
 const signOut = document.getElementById("signOut")
 
@@ -49,8 +55,9 @@ formButton.addEventListener('submit', (e) => {
     fetch("http://localhost:8080/api/agendageneral",{
         method:'POST',
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${valor}`
+            "Authorization": "Bearer " + valor,
+            'Content-Type': 'application/json'
+            
         },
         body: JSON.stringify({
             "Fecha": fecha.value,
@@ -61,7 +68,7 @@ formButton.addEventListener('submit', (e) => {
         }
         )
     }).then(res=>{
-        let json = res.json
+        
         console.log(res)
         return  res.ok ? res.json():Promise.reject(res)
     }).then(json=>{
