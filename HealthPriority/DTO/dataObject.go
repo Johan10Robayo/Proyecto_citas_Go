@@ -21,7 +21,6 @@ type PersonaLogin struct {
 }
 
 type Agenda struct {
-	Id      int64
 	Fecha   string
 	Jornada string
 	Tipo    string

@@ -10,6 +10,7 @@ formButton.addEventListener('submit', (e) => {
   console.log(correo.value, "tipo: ", typeof(correo.value))
   console.log(pass.value,"tipo: ", typeof(pass.value))
 
+
     let res=   fetch("http://localhost:8080/api/login",{
         method:'POST',
         headers: {
@@ -25,7 +26,7 @@ formButton.addEventListener('submit', (e) => {
         console.log(!res.ok)
 
         if(!res.ok)
-            respuesta.innerHTML="Datos incorrectos, error de autenticación"
+            alert("Datos incorrectos, error de autenticación")
         
         return  res.ok ? res.json():Promise.reject(res)
     }).then(json=>{

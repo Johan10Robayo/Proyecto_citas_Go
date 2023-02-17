@@ -135,7 +135,7 @@ func AgendarMedicoG(w http.ResponseWriter, r *http.Request) {
 		datajson = bytes
 	}
 
-	persona := dao.PersonaById(conn, 121111)
+	persona := dao.PersonaById(conn, RequestJson.Cedula)
 
 	// Convertir cadena a tiempo
 
@@ -227,7 +227,9 @@ func JwtMiddleware(next http.Handler) http.Handler {
 		}
 
 		authorization := r.Header.Get("Authorization")
+		fmt.Println("AUTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", authorization)
 		stringArray := strings.Split(authorization, " ")
+		fmt.Println("ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", stringArray)
 		tokenString := stringArray[1]
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return []byte("cb97baeaab7da33a8c6ca9b9165261ce05e9554533bcbab9389489f9c8d9f1d6"), nil

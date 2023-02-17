@@ -25,7 +25,7 @@ func ObtenerEstado(conn *gorm.DB) (estado models.Estado) {
 	conn.Last(&estado)
 	return estado
 }
-func PersonaById(conn *gorm.DB, id int) (persona models.Persona) {
+func PersonaById(conn *gorm.DB, id int64) (persona models.Persona) {
 	conn.First(&persona, id)
 	return persona
 }

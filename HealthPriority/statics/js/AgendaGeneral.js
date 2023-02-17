@@ -1,6 +1,9 @@
-
-let valor = getCookie("session")
+const valor = getCookie("session")
 validarSesion(valor)
+
+
+
+
 
 
 const signOut = document.getElementById("signOut")
@@ -25,16 +28,36 @@ formButton.addEventListener('submit', (e) => {
   console.log(fecha.value, "tipo: ", typeof(fecha.value))
   console.log(jornada.value,"tipo: ", typeof(jornada.value))
   
+/* 	
+	
+	
+	
+	Cedula  int64*/
 
-    let res=   fetch("http://localhost:8080/api/agendageneral",{
+    let decoded 
+        try {
+            decoded = decodeJWT(valor)
+            console.log(decoded)
+           
+        } catch (error) {
+            console.error(error);
+    }
+    console.log(`VALOR DE VALOR: ${valor}`)
+
+    
+
+    fetch("http://localhost:8080/api/agendageneral",{
         method:'POST',
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${valor}`
         },
         body: JSON.stringify({
             "Fecha": fecha.value,
             "Jornada": jornada.value,
-            "Tipo": "General"
+            "Tipo": "General",
+            "Cedula": decoded.id
+
         }
         )
     }).then(res=>{
