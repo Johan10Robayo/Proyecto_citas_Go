@@ -15,6 +15,8 @@ func Init() (router *mux.Router) {
 	router.HandleFunc("/api/agendageneral", handlers.AgendarMedicoG).Methods("POST")
 	router.HandleFunc("/api/autorizacion", handlers.Autorizacion).Methods("POST")
 	router.HandleFunc("/api/getAutorizaciones", handlers.GetAutorizaciones).Methods("POST")
+	router.HandleFunc("/api/getAgendas", handlers.GetAgendas).Methods("POST")
+	router.HandleFunc("/api/me", handlers.InfoPersonal).Methods("POST")
 	http.Handle("/", router)
 
 	return router

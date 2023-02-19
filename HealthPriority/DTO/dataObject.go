@@ -32,7 +32,7 @@ type Login struct {
 	Password string
 }
 
-type AutorizacionId struct {
+type PersonaId struct {
 	Persona_id int64
 }
 

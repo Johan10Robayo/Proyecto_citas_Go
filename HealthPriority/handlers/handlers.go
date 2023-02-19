@@ -324,7 +324,7 @@ func Autorizacion(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAutorizaciones(w http.ResponseWriter, r *http.Request) {
-	var RequestJson dto.AutorizacionId
+	var RequestJson dto.PersonaId
 	conn := connection.GetConnection()
 	err := json.NewDecoder(r.Body).Decode(&RequestJson)
 	if err != nil {
@@ -334,7 +334,7 @@ func GetAutorizaciones(w http.ResponseWriter, r *http.Request) {
 	var httpCode int = 200
 	var data map[string]interface{}
 	//fmt.Println(RequestJson)
-	if RequestJson == (dto.AutorizacionId{}) {
+	if RequestJson == (dto.PersonaId{}) {
 		data = map[string]interface{}{
 			"name":    "Parámetros incorrectos",
 			"message": "Los parámetros no coinciden",
@@ -360,6 +360,161 @@ func GetAutorizaciones(w http.ResponseWriter, r *http.Request) {
 			"succes":  true,
 		}
 		bytes, err := json.Marshal(autorizaciones)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func AgendarEsp(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.Agenda
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	if RequestJson == (dto.Agenda{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+		data = map[string]interface{}{
+			"name":    "Agendamiento exitoso",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+	}
+
+	persona := dao.PersonaById(conn, RequestJson.Cedula)
+
+	// Convertir cadena a tiempo
+
+	fecha, err := time.Parse(time.RFC3339, RequestJson.Fecha+"T12:00:00.511Z")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	agenda := models.Agenda{
+		Fecha:     fecha,
+		Jornada:   RequestJson.Jornada,
+		Tipo:      RequestJson.Tipo,
+		PersonaID: persona.Cedula,
+		Persona:   persona,
+	}
+
+	dao.CrearAgenda(conn, agenda)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func GetAgendas(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.PersonaId
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	//fmt.Println(RequestJson)
+	if RequestJson == (dto.PersonaId{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+		fmt.Println(RequestJson.Persona_id)
+		agendas := dao.GetAgenda(conn, RequestJson.Persona_id)
+
+		httpCode = http.StatusOK
+		data = map[string]interface{}{
+			"name":    "Agendas obtenidas",
+			"message": "¡Enhorabuena!",
+			"code":    200,
+			"succes":  true,
+		}
+		bytes, err := json.Marshal(agendas)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(httpCode)
+	w.Write(datajson)
+}
+
+func InfoPersonal(w http.ResponseWriter, r *http.Request) {
+	var RequestJson dto.PersonaId
+	conn := connection.GetConnection()
+	err := json.NewDecoder(r.Body).Decode(&RequestJson)
+	if err != nil {
+		panic(err)
+	}
+	var datajson []byte
+	var httpCode int = 200
+	var data map[string]interface{}
+	//fmt.Println(RequestJson)
+	if RequestJson == (dto.PersonaId{}) {
+		data = map[string]interface{}{
+			"name":    "Parámetros incorrectos",
+			"message": "Los parámetros no coinciden",
+			"code":    500,
+			"succes":  false,
+		}
+
+		bytes, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+		datajson = bytes
+		httpCode = 500
+	} else {
+		fmt.Println(RequestJson.Persona_id)
+
+		httpCode = http.StatusOK
+		info := dao.PersonaById(conn, RequestJson.Persona_id)
+
+		bytes, err := json.Marshal(info)
 		if err != nil {
 			panic(err)
 		}

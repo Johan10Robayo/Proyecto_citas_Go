@@ -41,3 +41,8 @@ func VerificarUsuario(conn *gorm.DB, correo string, password string) (usuario mo
 	conn.Where("correo = ? AND password >= ?", correo, password).Find(&usuario)
 	return usuario
 }
+
+func GetAgenda(conn *gorm.DB, id int64) (agendas []models.Agenda) {
+	conn.Where("persona_id = ?", id).Find(&agendas)
+	return agendas
+}
